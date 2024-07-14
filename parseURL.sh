@@ -20,9 +20,11 @@ identitfy_platform() {
         if command -v apt-get &>/dev/null; then
             platform="deb"
             pkg_manager="apt-get"
+            echo "Setting platform as deb and package manager as apt-get"
         elif command -v yum &>/dev/null; then
             platform="rpm"
             pkg_manager="yum"
+            echo "Setting platform as rpm and package manager as yum"
         else
             echo "Unable to Identify Platform"
         fi
