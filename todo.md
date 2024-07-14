@@ -4,7 +4,7 @@
 
 | Task                                                            | Status |
 | --------------------------------------------------------------- | ------ |
-| Get version and platform from the user                          | ⌛     |
+| Get versions from the user                                      | ⌛     |
 | scrape the download URL based on the version and platform       | ✅     |
 | use the scraped download link to download the installation file | ✅     |
 | Install mongodb enterprise                                      | ⌛     |
