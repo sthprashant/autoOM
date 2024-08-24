@@ -1,1 +1,24 @@
+name: Deploy to Server
 
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Set up SSH
+        run: |
+          echo "${{ secrets.TS_SSH }}" | base64 --decode > /tmp/private_key.pem
+          chmod 600 /tmp/private_key.pem
+          ssh-add /tmp/private_key.pem
+
+      - name: Deploy to server
+        run: |
+          ssh -o StrictHostKeyChecking=no -i /tmp/private_key.pem ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'EOF'
+            cd ~/autoOM || exit
+            git pull
+          EOF
