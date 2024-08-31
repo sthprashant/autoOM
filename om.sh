@@ -1,31 +1,5 @@
 #!/bin/bash
 
-om_version="7.0.8"
-backing_db="7.0.8"
-platform="rpm"
-download_links=""
-om_installer_path="./.assets"
-pkg_manager=""
-
-identitfy_platform() {
-    linux_check=$(uname)
-    if [ "${linux_check}" = "Linux" ]; then
-        if command -v apt-get &>/dev/null; then
-            platform="deb"
-            pkg_manager="apt-get"
-            echo "Setting platform as deb and package manager as apt-get"
-        elif command -v yum &>/dev/null; then
-            platform="rpm"
-            pkg_manager="yum"
-            echo "Setting platform as rpm and package manager as yum"
-        else
-            echo "Unable to Identify Platform"
-        fi
-    else
-        echo "Unsupported Platform : ${linux_check}"
-    fi
-}
-
 # Get the Download Link From Ops Manager site
 get_link() {
     # URL of the MongoDB Ops Manager archive page
@@ -64,28 +38,6 @@ download_om() {
     echo "Ops Manager donwload complete"
 }
 
-# Download mongodb om_version and install
-setup_appdb() {
-    echo "Setting up Application database for Ops Manager on the same host"
-    # INSTALL M
-    echo("Installing m from ")
-    # if [ "${platform}" = "deb" ]; then
-    #     echo "Setting up app db for ${platform}"
-    #     sudo apt-get install gnupg curl
-    #     echo "deb [ arch=amd64,arm64 signed-by=/usr/share/keyrings/mongodb-server-7.0.gpg ] https://repo.mongodb.com/apt/ubuntu jammy/mongodb-enterprise/7.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-enterprise-7.0.list
-    #     sudo apt-get update &
-        
-    # fi
-}
-
-# Execute the program here
-#mkdir ./.assets
-#identitfy_platform
-#get_link #completed
-#download_om # completed
-setup_appdb
-#download_mongodb
-#install_mongodb
 #install_om
-#start_mongodb
+#configure_om
 #start_om
