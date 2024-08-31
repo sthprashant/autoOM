@@ -16,11 +16,6 @@ jobs:
         run: |
           echo "${{ secrets.TS_SSH }}" | base64 --decode > /tmp/private_key.pem
           chmod 600 /tmp/private_key.pem
-          
-      - name: Start SSH agent
-        run: eval $(ssh-agent -s)
-      - name: Add SSH private key
-        run: ssh-add /tmp/private_key.pem
 
       - name: Deploy to server
         run: |
@@ -28,3 +23,6 @@ jobs:
             cd ~/autoOM || exit
             git pull
           EOF
+      - name: Clean up
+        run: rm.-f /tmp/private_key.pem
+     
