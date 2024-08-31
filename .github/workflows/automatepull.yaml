@@ -13,7 +13,6 @@ jobs:
 
       - name: Deploy to server
         run: |
-          ssh -o StrictHostKeyChecking=no -i /tmp/private_key.pem ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'EOF'
-            cd ~/autoOM || exit
+            cd /home/${{ secrets.SSH_USER }}/autoOM || exit
             git pull
      
