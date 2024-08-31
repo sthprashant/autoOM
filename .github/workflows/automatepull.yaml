@@ -10,11 +10,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
       - name: Set up SSH
         run: |
           echo "${{ secrets.TS_SSH }}" | base64 --decode > /tmp/private_key.pem
           chmod 600 /tmp/private_key.pem
-          ssh-add /tmp/private_key.pem
+          
+      - name: Start SSH agent
+        run: eval $(ssh-agent -s)
+      - name: Add SSH private key
+        run: ssh-add /tmp/private_key.pem
 
       - name: Deploy to server
         run: |
