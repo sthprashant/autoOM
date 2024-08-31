@@ -1,10 +1,8 @@
 name: Deploy to Server
-
 on:
   push:
     branches:
       - main
-
 jobs:
   deploy:
     runs-on: self-hosted
@@ -12,17 +10,10 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-      - name: Set up SSH
-        run: |
-          echo "${{ secrets.TS_SSH }}" | base64 --decode > /tmp/private_key.pem
-          chmod 600 /tmp/private_key.pem
 
       - name: Deploy to server
         run: |
           ssh -o StrictHostKeyChecking=no -i /tmp/private_key.pem ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'EOF'
             cd ~/autoOM || exit
             git pull
-          EOF
-      - name: Clean up
-        run: rm.-f /tmp/private_key.pem
      
