@@ -37,8 +37,8 @@ install_reqs() {
 setup_vars() {
     echo "${pkg_manager} \n ${platform}"
     echo "setting up environment variables"
-    export PKG_MANAGER=${pkg_manager}
-    export PLAT=${platform}
+    export PKG_MANAGER="$pkg_manager"
+    export PLAT="$platform"
 
     echo "environment variable setup complete"
     echo "PKG_MANAGER=$PKG_MANAGER "
