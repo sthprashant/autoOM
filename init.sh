@@ -27,12 +27,22 @@ identitfy_platform() {
 ### Install/verify requirements - node, git, m
 install_reqs() {
     echo "Installing packages. This may take some time"
-    "${pkg_manager}" -y update &> /dev/null
-    "${pkg_manager}" install -y git nodejs npm curl &> /dev/null
+    sudo "${pkg_manager}" -y update &> /dev/null
+    sudo "${pkg_manager}" install -y git make nodejs npm curl &> /dev/null
+
+    if [ "${platform}" = "rpm" ]; then
+        sudo yum -y install cyrus-sasl cyrus-sasl-gssapi cyrus-sasl-plain krb5-libs libcurl net-snmp openldap openssl xz-libs
+    fi
+
+    if [ "${platform}" = "deb" ]; then
+        sudo apt-get -y install libcurl4 libgssapi-krb5-2 libldap-2.5-0 libwrap0 libsasl2-2 libsasl2-modules libsasl2-modules-gssapi-mit snmp openssl liblzma5
+    fi
 
     echo "Installing m using NPM. More info about m: https://github.com/aheckmann/m"
-    npm install -g m
+    sudo npm install -g m
 }
+
+
 ### set up environment variables based on user input
 setup_vars() {
     echo "${pkg_manager} \n ${platform}"
