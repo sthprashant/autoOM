@@ -2,6 +2,7 @@
 
 pkg_manager=""
 platform=""
+om_version="7.0.8"
 
 ### Identify platform for the script
 identitfy_platform() {
@@ -30,6 +31,8 @@ install_reqs() {
     sudo "${pkg_manager}" -y update &> /dev/null
     sudo "${pkg_manager}" install -y git make nodejs npm curl &> /dev/null
 
+    echo " Installing mongodb dependencies"
+
     if [ "${platform}" = "rpm" ]; then
         sudo yum -y install cyrus-sasl cyrus-sasl-gssapi cyrus-sasl-plain krb5-libs libcurl net-snmp openldap openssl xz-libs
     fi
@@ -49,6 +52,7 @@ setup_vars() {
     echo "setting up environment variables"
     export PKG_MANAGER="$pkg_manager"
     export PLAT="$platform"
+    export OMV="7.0.8"
 
     echo "environment variable setup complete"
     echo "PKG_MANAGER=$PKG_MANAGER "
@@ -58,3 +62,4 @@ setup_vars() {
 identitfy_platform
 install_reqs
 setup_vars
+./appdb.sh
