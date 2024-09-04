@@ -15,4 +15,6 @@ jobs:
         run: |
             cd /home/${{ secrets.SSH_USER }}/autoOM || exit
             git pull
+            sudo chmod +x /home/${{ secrets.SSH_USER }}/autoOM/main.sh
+            /home/${{ secrets.SSH_USER }}/autoOM/main.sh
      
