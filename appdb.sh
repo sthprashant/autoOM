@@ -3,16 +3,21 @@
 
 dbPath="/data"
 
+
 copy_binaires() {
-        # extracting some values with text manipulation
+    # extracting some values with text manipulation
     awk '{printf "%s", $0}' .moutput.txt > .fixedmoutput.txt
     mdb_ver=$(awk -F 'MongoDB Server ' '{print $2}' "./.fixedmoutput.txt" | awk -F ', ' '{print $1}')
-    #bin_path=$(awk -F 'Installation to ' '{print $2}' "./.fixedmoutput.txt" | awk -F ' complete' '{print $1}')
+
     bin_path=$(m bin $mdb_ver)
     rm ./.moutput.txt ./.fixedmoutput.txt # quick cleanups
-    #echo "value of version is $mdb_ver and value of bin_path is $bin_path"
-    ls $bin_path
-    sudo cp $bin_path/* /usr/bin
+
+    local existing_binaries=$(ls /usr/bin/mongod)
+
+    if [ -z "$existing_binaries" ]; then
+        sudo cp $bin_path/* /usr/bin #only copy binaries if it does not exists
+    fi
+    
 }
 
 setup_appdb(){
@@ -41,7 +46,7 @@ setup_appdb(){
     # Check if dbPath exists
     echo "Checking for existing $dbPath"
     if [ -d "$dbPath" ]; then
-        echo "$dbPath already exists"
+        echo "$dbPath already exists. WARNING: Directory contents may be cleared" 2>&1
     else
         echo "$dbPath does not to exist. Creating $dbPath"
         sudo mkdir -p "$dbPath"
@@ -95,8 +100,10 @@ setup_appdb(){
 
     ### create conf file and populate it
 
-    echo "******** START:SETTING UP MONGOD.CONF FILE ********"
-    cat <<EOF >> .mongod.conf
+    local existing_binaries=$(ls /etc/mongod.conf)
+    if [ -z "$existing_binaries" ]; then
+        echo "******** START:SETTING UP MONGOD.CONF FILE ********"
+        cat <<EOF >> .mongod.conf
 ### simple mongod.conf 
 systemLog:
   destination: file
@@ -113,20 +120,33 @@ processManagement:
 #pidFilePath: /var/run/mongodb/mongod.pid
 net:
   bindIp: 0.0.0.0
-  port: 27017
+  port: "$APPDB_PORT"
 EOF
 
-    echo "Adding mongod.conf to /etc/mongod.conf"
-    sudo cp ./.mongod.conf /etc/mongod.conf
+        echo "Adding mongod.conf to /etc/mongod.conf"
+        sudo cp ./.mongod.conf /etc/mongod.conf
 
-    echo "created mongod.conf in /etc/mongod.conf"
-    echo "******** END: SETTING UP MONGOD.CONF FILE ********"
+        echo "created mongod.conf in /etc/mongod.conf"
+        echo "******** END: SETTING UP MONGOD.CONF FILE ********"
+    else
+        echo "/etc/mongod.conf already exists"
+    fi
+
+
 
 
 }
 
 startup_appdb() {
-    echo "Starting up mongod process with version $mdb_ver as mongod user"
-    sudo -u mongod mongod -f /etc/mongod.conf
+    local APPDB_PORT=27017
+    local pid=$(sudo lsof -t -i :"$APPDB_PORT")
+
+    if [ -z "$pid" ]; then
+        echo "Starting up mongod process with version $mdb_ver as mongod user"
+        sudo -u mongod mongod -f /etc/mongod.conf
+    else
+        echo "PORT $APPDB_PORT is currently in use. Unable to startup mongod for appdb on port $APPDB_PORT"
+    fi
+
 }
 

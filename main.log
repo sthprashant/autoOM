@@ -1,87 +1,11 @@
-2024-09-04 17:58:24 - ********** Started Script **********
-Platform has been identified
-Setting platform as RPM and package manager as yum
-****************
-Installing packages. This may take some time...
-******** START - sudo yum update ********
-Updating Subscription Management repositories.
-Last metadata expiration check: 2:57:42 ago on Wed 04 Sep 2024 15:00:45.
-Dependencies resolved.
-Nothing to do.
-Complete!
-******** END - sudo yum update ********
-******** START - sudo yum install -y git make nodejs npm curl ********
-Updating Subscription Management repositories.
-Last metadata expiration check: 2:57:44 ago on Wed 04 Sep 2024 15:00:45.
-Package git-2.43.5-1.el9_4.aarch64 is already installed.
-Package make-1:4.3-8.el9.aarch64 is already installed.
-Package nodejs-1:16.20.2-8.el9_4.aarch64 is already installed.
-Package npm-1:8.19.4-1.16.20.2.8.el9_4.aarch64 is already installed.
-Package curl-7.76.1-29.el9_4.1.aarch64 is already installed.
-Dependencies resolved.
-Nothing to do.
-Complete!
-******** END - sudo yum install -y git make nodejs npm curl ********
-****************
-Installing mongodb dependencies
-Updating Subscription Management repositories.
-Last metadata expiration check: 2:57:46 ago on Wed 04 Sep 2024 15:00:45.
-Package cyrus-sasl-2.1.27-21.el9.aarch64 is already installed.
-Package cyrus-sasl-gssapi-2.1.27-21.el9.aarch64 is already installed.
-Package cyrus-sasl-plain-2.1.27-21.el9.aarch64 is already installed.
-Package krb5-libs-1.21.1-2.el9_4.aarch64 is already installed.
-Package libcurl-7.76.1-29.el9_4.1.aarch64 is already installed.
-Package net-snmp-1:5.9.1-13.el9.aarch64 is already installed.
-Package openldap-2.6.6-3.el9.aarch64 is already installed.
-Package openssl-1:3.0.7-27.el9.aarch64 is already installed.
-Package xz-libs-5.2.5-8.el9_0.aarch64 is already installed.
-Dependencies resolved.
-Nothing to do.
-Complete!
-Installing m using NPM. More info about m: https://github.com/aheckmann/m
-
-changed 1 package, and audited 2 packages in 2s
-
-found 0 vulnerabilities
-****************
-****************
-****************
-setting up environment variables
-environment variable setup complete
-PKG_MANAGER=yum 
-PLAT=rpm
-****************
-Installing appDB with MongoDB version 7.0-ent. Minor version will stable release of 7.0
-**********Staring Logs from m**********
-**********END log from m**********
-install_compass
-mongocryptd
-mongod
-mongodecrypt
-mongokerberos
-mongoldap
-mongos
-value of version is 7.0.14-ent and value of bin_path is /home/prash/.local/m/versions/7.0.14-ent/bin
-****************
-Checking for existing /data
-/data already exists
-****************
-****************
-Cheking for required users
-Existing mongod user was found. Skipping step
-mongod group exists
-mongod user is already part of mongod group. Skipping step
-****************
-****************
-Updating /data ownership
-/data ownership has been updated to mongod:mongod
-****************
-******** START:SETTING UP MONGOD.CONF FILE ********
-Adding mongod.conf to /etc/mongod.conf
-created mongod.conf in /etc/mongod.conf
-******** END: SETTING UP MONGOD.CONF FILE ********
-Starting up mongod process with version 7.0.14-ent as mongod user
-about to fork child process, waiting until server is ready for connections.
-forked process: 43912
-child process started successfully, parent exiting
-2024-09-04 17:58:39 - ********** Completed Script **********
+2024-09-04 18:13:59 - ********** Started Script **********
+2024-09-04 18:31:04 - ********** Started Script **********
+2024-09-04 18:33:13 - ********** Started Script **********
+2024-09-04 18:36:52 - ********** Started Script **********
+2024-09-04 18:38:46 - ********** Started Script **********
+2024-09-04 18:42:10 - ********** Started Script **********
+2024-09-04 21:01:07 - ********** Started Script **********
+2024-09-04 21:02:42 - ********** Started Script **********
+2024-09-04 21:03:31 - ********** Started Script **********
+2024-09-04 21:04:08 - ********** Started Script **********
+2024-09-04 21:05:42 - ********** Started Script **********
