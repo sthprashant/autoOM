@@ -34,9 +34,9 @@ install_reqs() {
     echo "******** START - sudo yum update ********"
     sudo "${pkg_manager}" -y update
     echo "******** END - sudo yum update ********"
-    echo "******** START - sudo "${pkg_manager}" install -y git make nodejs npm curl ********"
-    sudo "${pkg_manager}" install -y git make nodejs npm curl
-    echo "******** END - sudo "${pkg_manager}" install -y git make nodejs npm curl ********"
+    echo "******** START - sudo "${pkg_manager}" install -y git make nodejs npm curl lsof********"
+    sudo "${pkg_manager}" install -y git make nodejs npm curl lsof
+    echo "******** END - sudo "${pkg_manager}" install -y git make nodejs npm curl lsof********"
     echo "****************"
     echo "Installing mongodb dependencies"
 
