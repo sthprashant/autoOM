@@ -14,6 +14,8 @@ jobs:
       - name: Deploy to server
         run: |
             cd /home/${{ secrets.SSH_USER }}/autoOM || exit
+            git fetch origin
+            git reset --hard origin/main
             git pull
             sudo chmod +x /home/${{ secrets.SSH_USER }}/autoOM/main.sh
             /home/${{ secrets.SSH_USER }}/autoOM/main.sh
