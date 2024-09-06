@@ -1,7 +1,15 @@
 #!/bin/bash
 
+
+om_version="7.0.8"
+backing_db="7.0.8"
+platform="rpm"
+download_links=""
+om_installer_path="./.assets"
+pkg_manager=""
+
 # Get the Download Link From Ops Manager site
-get_link() {
+get_download_link() {
     # URL of the MongoDB Ops Manager archive page
     URL="https://www.mongodb.com/try/download/ops-manager/releases/archive"
     #https://www.mongodb.com/try/download/enterprise-advanced/releases/archive
@@ -33,9 +41,24 @@ get_link() {
 
 # Download installer using the link
 download_om() {
+    om_fullpath="${om_installer_path}/om_${om_version}.${platform}"
+    local verify_dir=$(ls -d)
+    echo "local directory output is $verify_dir"
+    if [ -z "$verify" ]; then
+        echo "unable to find $om_installer_path. Creating one to download the Ops Manager installer"
+        mkdir -p "$om_installer_path"
+    fi
     echo "Downloading Ops Manager version ${om_version} from ${download_links}"
-    curl -o "${om_installer_path}/om_${om_version}.${platform}" "${download_links}"
+    #curl -o "${om_installer_path}/om_${om_version}.${platform}" "${download_links}"
+    curl -o "$om_fullpath" "${download_links}" --silent
     echo "Ops Manager donwload complete"
+}
+
+install_om() {
+    echo "Installing manager using $om_fullpath"
+    sudo rpm -ivh "$om_fullpath"
+    echo "Installation complete"
+    rm -R "$om_fullpath"
 }
 
 #install_om
