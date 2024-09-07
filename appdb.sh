@@ -2,7 +2,7 @@
 #!/bin/bash
 
 dbPath="/data"
-
+APPDB_PORT=27017
 
 copy_binaires() {
     # extracting some values with text manipulation
@@ -99,7 +99,7 @@ setup_appdb(){
     : > .mongod.conf # clearing existing mongod.conf contents if any
 
     ### create conf file and populate it
-
+echo "$APPDB_PORT"
     local existing_binaries=$(ls /etc/mongod.conf)
     if [ -z "$existing_binaries" ]; then
         echo "******** START:SETTING UP MONGOD.CONF FILE ********"
@@ -120,7 +120,7 @@ processManagement:
 #pidFilePath: /var/run/mongodb/mongod.pid
 net:
   bindIp: 0.0.0.0
-  port: "$APPDB_PORT"
+  port: $APPDB_PORT
 EOF
 
         echo "Adding mongod.conf to /etc/mongod.conf"
@@ -138,7 +138,7 @@ EOF
 }
 
 startup_appdb() {
-    local APPDB_PORT=27017
+    #local APPDB_PORT=27017
     local pid=$(sudo lsof -t -i :"$APPDB_PORT")
 
     if [ -z "$pid" ]; then

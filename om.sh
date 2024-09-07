@@ -59,6 +59,7 @@ install_om() {
     sudo rpm -ivh "$om_fullpath"
     echo "Installation complete"
     rm -R "$om_fullpath"
+    sudo service mongodb-mms start
 }
 
 #install_om
