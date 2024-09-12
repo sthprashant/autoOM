@@ -1,13 +1,5 @@
 #!/bin/bash
 
-
-om_version="7.0.8"
-backing_db="7.0.8"
-platform="rpm"
-download_links=""
-om_installer_path="./.assets"
-pkg_manager=""
-
 # Get the Download Link From Ops Manager site
 get_download_link() {
     # URL of the MongoDB Ops Manager archive page
@@ -59,9 +51,6 @@ install_om() {
     sudo rpm -ivh "$om_fullpath"
     echo "Installation complete"
     rm -R "$om_fullpath"
+    echo "starting Ops Manager"
     sudo service mongodb-mms start
 }
-
-#install_om
-#configure_om
-#start_om

@@ -2,7 +2,8 @@
 
 pkg_manager=""
 platform=""
-om_version="7.0.8"
+om_version="7.0.9"
+om_installer_path="./.assets"
 
 ### Identify platform for the script
 identitfy_platform() {
@@ -67,4 +68,8 @@ setup_vars() {
     echo "PKG_MANAGER=$PKG_MANAGER "
     echo "PLAT=$PLAT"
     echo "****************"
+
+    ### check and update ulimit value
+    ulimit -n 64000
+    ulimit -a
 }
