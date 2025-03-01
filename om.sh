@@ -52,5 +52,5 @@ install_om() {
     echo "Installation complete"
     rm -R "$om_fullpath"
     echo "starting Ops Manager"
-    sudo service mongodb-mms start
+    sudo /etc/init.d/mongodb-mms start
 }
