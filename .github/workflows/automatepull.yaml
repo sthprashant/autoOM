@@ -17,6 +17,7 @@ jobs:
             git fetch origin
             git reset --hard origin/main
             git pull
-            sudo chmod +x /home/${{ secrets.SSH_USER }}/autoOM/main.sh
-            #/home/${{ secrets.SSH_USER }}/autoOM/main.sh
+            git checkout deploy-test
+            #sudo chmod +x /home/${{ secrets.SSH_USER }}/autoOM/main.sh
+            /home/${{ secrets.SSH_USER }}/autoOM/main.sh
      
