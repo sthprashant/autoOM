@@ -2,7 +2,7 @@ name: Deploy to Server
 on:
   push:
     branches:
-      - test
+      - deploy-test
 jobs:
   deploy:
     runs-on: self-hosted
