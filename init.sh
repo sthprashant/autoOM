@@ -2,6 +2,8 @@
 
 pkg_manager=""
 platform=""
+om_version="7.0.9"
+om_installer_path="./.assets"
 
 ### Identify platform for the script
 identitfy_platform() {
@@ -10,13 +12,15 @@ identitfy_platform() {
         if command -v apt-get &>/dev/null; then
             platform="deb"
             pkg_manager="apt-get"
-            echo "Setting platform as deb and package manager as apt-get"
+            echo "Platform has been identified"
+            echo "Setting platform as DEB and package manager as apt-get"
         elif command -v yum &>/dev/null; then
             platform="rpm"
             pkg_manager="yum"
-            echo "Setting platform as rpm and package manager as yum"
+            echo "Platform has been identified"
+            echo "Setting platform as RPM and package manager as yum"
         else
-            echo "Unable to Identify Platform"
+            echo "Detected unsupported platform or Unable to Identify Platform"
         fi
     else
         echo "Unsupported Platform : ${linux_check} for Ops Manager Installation"
@@ -26,25 +30,46 @@ identitfy_platform() {
 
 ### Install/verify requirements - node, git, m
 install_reqs() {
-    echo "Installing packages. This may take some time"
-    "${pkg_manager}" -y update &> /dev/null
-    "${pkg_manager}" install -y git nodejs npm curl &> /dev/null
+    echo "****************"
+    echo "Installing packages. This may take some time..."
+    echo "******** START - sudo yum update ********"
+    sudo "${pkg_manager}" -y update
+    echo "******** END - sudo yum update ********"
+    echo "******** START - sudo "${pkg_manager}" install -y git make nodejs npm curl lsof********"
+    sudo "${pkg_manager}" install -y git make nodejs npm curl lsof
+    echo "******** END - sudo "${pkg_manager}" install -y git make nodejs npm curl lsof********"
+    echo "****************"
+    echo "Installing mongodb dependencies"
+
+    if [ "${platform}" = "rpm" ]; then
+        sudo yum -y install cyrus-sasl cyrus-sasl-gssapi cyrus-sasl-plain krb5-libs libcurl net-snmp openldap openssl xz-libs
+    fi
+
+    if [ "${platform}" = "deb" ]; then
+        sudo apt-get -y install libcurl4 libgssapi-krb5-2 libldap-2.5-0 libwrap0 libsasl2-2 libsasl2-modules libsasl2-modules-gssapi-mit snmp openssl liblzma5
+    fi
 
     echo "Installing m using NPM. More info about m: https://github.com/aheckmann/m"
-    npm install -g m
+    sudo npm install -g m
+    echo "****************"
+    echo "****************"
 }
+
+
 ### set up environment variables based on user input
 setup_vars() {
-    echo "${pkg_manager} \n ${platform}"
+    echo "****************"
     echo "setting up environment variables"
     export PKG_MANAGER="$pkg_manager"
     export PLAT="$platform"
+    export OMV="7.0.8"
 
     echo "environment variable setup complete"
     echo "PKG_MANAGER=$PKG_MANAGER "
     echo "PLAT=$PLAT"
-}
+    echo "****************"
 
-identitfy_platform
-install_reqs
-setup_vars
+    ### check and update ulimit value
+    ulimit -n 64000
+    ulimit -a
+}
